@@ -1,1 +1,2 @@
-web: python manage.py migrate --noinput && gunicorn webdev.wsgi --log-file -
+web: python manage.py migrate --noinput
+gunicorn webdev.wsgi --log-file -
