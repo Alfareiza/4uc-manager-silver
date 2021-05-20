@@ -22,4 +22,22 @@ app_name = 'base'
 
 urlpatterns = [
     path('', views.home, name='home'),
+    path('reset_pass.html', views.reset_pass, name='reset_pass'),
+    path('charts.html', views.charts, name='charts'),
+    path('login.html', views.login, name='login'),
+    path('maps.html', views.maps, name='maps'),
+    path('page_not_found_fourzerothree.html', views.page_not_found_fourzerothree, name='page_not_found_fourzerothree'),
+    path('page_not_found_fourzerofour.html', views.page_not_found_fourzerofour, name='page_not_found_fourzerofour'),
+    path('page_bad_request.html', views.page_bad_request, name='page_bad_request'),
+    path('blank.html', views.blank, name='blank'),
+    path('register.html', views.register, name='register'),
+    path('badges.html', views.badges, name='badges'),
+    path('breadcrumb_pagination.html', views.breadcrumb_pagination, name='breadcrumb_pagination'),
+    path('forms.html', views.forms, name='forms'),
+    path('button.html', views.button, name='button'),
+    path('collapse.html', views.collapse, name='collapse'),
+    path('icons.html', views.icons, name='icons'),
+    path('tabs.html', views.tabs, name='tabs'),
+    path('tables.html', views.tables, name='tables'),
+    path('typography.html', views.typography, name='typography'),
 ]
