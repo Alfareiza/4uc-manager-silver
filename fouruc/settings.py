@@ -15,7 +15,9 @@ import dj_database_url
 
 from functools import partial
 from pathlib import Path
-from decouple import config, Csv
+from decouple import config
+import sentry_sdk
+from sentry_sdk.integrations.django import DjangoIntegration
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -162,3 +164,7 @@ if AWS_ACCESS_KEY_ID:
 
     INSTALLED_APPS.append('s3_folder_storage')
     INSTALLED_APPS.append('storages')
+
+    SENTRY_DSN = config('SENTRY_DSN', default=None)
+    if SENTRY_DSN:
+        sentry_sdk.init(dsn=SENTRY_DSN, integrations=[DjangoIntegration()])
