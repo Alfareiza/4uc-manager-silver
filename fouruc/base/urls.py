@@ -22,6 +22,7 @@ app_name = 'base'
 
 urlpatterns = [
     path('', views.home, name='home'),
+    path('', views.dashboard, name='dashboard'),
     path('reset_pass.html', views.reset_pass, name='reset_pass'),
     path('charts.html', views.charts, name='charts'),
     path('login.html', views.login, name='login'),
