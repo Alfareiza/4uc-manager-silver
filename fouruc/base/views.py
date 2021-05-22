@@ -5,6 +5,10 @@ def home(request):
     return render(request, 'base/index.html')
 
 
+def dashboard(request):
+    return render(request, 'base/index.html')
+
+
 def reset_pass(request):
     return render(request, 'auth-reset-pass.html')
 
