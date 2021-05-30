@@ -25,18 +25,6 @@ def maps(request):
     return render(request, 'maps-google.html')
 
 
-def page_not_found_fourzerothree(request):
-    return render(request, 'page-403.html')
-
-
-def page_not_found_fourzerofour(request):
-    return render(request, 'page-404.html')
-
-
-def page_bad_request(request):
-    return render(request, 'page-500.html')
-
-
 def blank(request):
     return render(request, 'page-blank.html')
 
