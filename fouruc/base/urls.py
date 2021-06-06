@@ -21,14 +21,11 @@ from fouruc.base import views
 app_name = 'base'
 
 urlpatterns = [
-    path('', views.home, name='home'),
+    path('', views.dashboard, name='home'),
     path('dashboard', views.dashboard, name='dashboard'),
-    path('reset_pass', views.reset_pass, name='reset_pass'),
     path('charts', views.charts, name='charts'),
-    path('login', views.login, name='login'),
     path('maps', views.maps, name='maps'),
     path('blank', views.blank, name='blank'),
-    path('register', views.register, name='register'),
     path('badges', views.badges, name='badges'),
     path('breadcrumb_pagination', views.breadcrumb_pagination, name='breadcrumb_pagination'),
     path('forms', views.forms, name='forms'),
