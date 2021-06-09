@@ -1,4 +1,5 @@
 {% extends "layouts/base-fullscreen.html" %}
+{% load i18n static %}
 
 {% block title %} Login {% endblock %}
 
@@ -17,13 +18,13 @@
                     <div class="mb-4">
                         <i class="feather icon-user-plus auth-icon"></i>
                     </div>
-                    <h3 class="mb-4">Sign up</h3>
+                    <h3 class="mb-4">{% translate 'Signup' %}</h3>
 
                     <span class="mb-0 text-muted">
                         {% if msg %}
                             {{ msg | safe }}
                         {% else %}
-                            Add your credentials
+                            {% translate 'Add your credentials' %}
                         {% endif %} 
                     </span>
 
@@ -33,11 +34,6 @@
                     <form role="form" method="post" action="">
 
                         {% csrf_token %}                    
-
-                        <div class="input-group mb-3">
-                            {{ form.username }}
-                        </div>
-                        <span class="text-error">{{ form.username.errors }}</span>
 
                         <div class="input-group mb-3">
                             {{ form.email }}
@@ -60,16 +56,16 @@
                                 <label for="checkbox-fill-a1" class="cr"> Agree with <a href="#">terms</a></label>
                             </div>
                         </div>
-                        <button type="submit" name="register" class="btn btn-primary shadow-2 mb-4">Register</button>
+                        <button type="submit" name="register" class="btn btn-primary shadow-2 mb-4">{% translate 'Register' %}</button>
 
                     </form>
 
-                    <p class="mb-0 text-muted">Already have an account? <a href="{% url 'login' %}" >Login</a></p>
+                    <p class="mb-0 text-muted">{% translate 'Already have an account?' %}<a href="{% url 'login' %}" > {% translate 'Login' %}</a></p>
                     <br />
-                    <p class="mb-2 text-muted">
+                    <!--<p class="mb-2 text-muted">
                         &copy; <a target="_blank" href="https://bit.ly/37fF9RT">CodedThemes</a> 
                         - <a target="_blank" href="https://appseed.us/admin-dashboards/django-dashboard-dattaable">Django Datta Able</a>
-                    </p>
+                    </p>-->
                 </div>
             </div>
         </div>
