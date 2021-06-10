@@ -14,7 +14,7 @@ import os
 import dj_database_url
 
 from functools import partial
-from pathlib import Path
+from pathlib import Path, PurePath
 from decouple import config
 import sentry_sdk
 from sentry_sdk.integrations.django import DjangoIntegration
@@ -41,14 +41,14 @@ LOGIN_URL = '/login/'
 # Application definition
 
 INSTALLED_APPS = [
+    'fouruc.base',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'collectfast',
-    'django.contrib.staticfiles',
-    'fouruc.base',
+    'django.contrib.staticfiles'
 ]
 
 MIDDLEWARE = [
@@ -112,6 +112,8 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'pt-br'
 
+LOCALE_PATHS = [PurePath(BASE_DIR, 'locale_own')]
+
 TIME_ZONE = 'UTC'
 
 USE_I18N = True
@@ -119,6 +121,14 @@ USE_I18N = True
 USE_L10N = True
 
 USE_TZ = True
+
+# E-Mail Configuration
+EMAIL_BACKEND = config('EMAIL_BACKEND')
+EMAIL_USE_TLS = config('EMAIL_USE_TLS')
+EMAIL_HOST = config('EMAIL_HOST')
+EMAIL_PORT = config('EMAIL_PORT')
+EMAIL_HOST_USER = config('EMAIL_HOST_USER')
+EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD')
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
