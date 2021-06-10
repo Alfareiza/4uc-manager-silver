@@ -1,0 +1,226 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2021-06-10 14:00-0300\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: .\fouruc\base\admin.py:33
+msgid "Permissions"
+msgstr ""
+
+#: .\fouruc\base\admin.py:35
+msgid "Important dates"
+msgstr ""
+
+#: .\fouruc\base\admin.py:119
+#, python-format
+msgid "%(name)s object with primary key %(key)r does not exist."
+msgstr ""
+
+#: .\fouruc\base\admin.py:129
+msgid "Password changed successfully."
+msgstr ""
+
+#: .\fouruc\base\admin.py:149
+#, python-format
+msgid "Change password: %s"
+msgstr ""
+
+#: .\fouruc\base\models.py:81
+msgid "first name"
+msgstr ""
+
+#: .\fouruc\base\models.py:82
+msgid "email address"
+msgstr ""
+
+#: .\fouruc\base\models.py:84
+msgid "staff status"
+msgstr ""
+
+#: .\fouruc\base\models.py:86
+msgid "Designates whether the user can log into this admin site."
+msgstr ""
+
+#: .\fouruc\base\models.py:89
+msgid "active"
+msgstr ""
+
+#: .\fouruc\base\models.py:92
+msgid ""
+"Designates whether this user should be treated as active. Unselect this "
+"instead of deleting accounts."
+msgstr ""
+
+#: .\fouruc\base\models.py:96
+msgid "date joined"
+msgstr ""
+
+#: .\fouruc\base\models.py:105
+msgid "user"
+msgstr ""
+
+#: .\fouruc\base\models.py:106
+msgid "users"
+msgstr ""
+
+#: .\fouruc\base\templates\accounts\login.html:21
+#: .\fouruc\base\templates\accounts\login.html:52
+#: .\fouruc\base\templates\accounts\register.html:63
+#: .\fouruc\base\templates\registration\password_reset_complete.html:26
+msgid "Login"
+msgstr "Acessar"
+
+#: .\fouruc\base\templates\accounts\login.html:27
+#: .\fouruc\base\templates\accounts\register.html:27
+msgid "Add your credentials"
+msgstr "Coloque seus dados"
+
+#: .\fouruc\base\templates\accounts\login.html:55
+msgid "Forgot your password ?"
+msgstr "Esqueceu sua Senha ? "
+
+#: .\fouruc\base\templates\accounts\login.html:56
+#: .\fouruc\base\templates\registration\password_reset_confirm.html:77
+#: .\fouruc\base\templates\registration\password_reset_done.html:31
+#: .\fouruc\base\templates\registration\password_reset_form.html:34
+msgid "Don’t have an account?"
+msgstr "Não possui uma conta?"
+
+#: .\fouruc\base\templates\accounts\login.html:56
+#: .\fouruc\base\templates\accounts\register.html:21
+#: .\fouruc\base\templates\registration\password_reset_confirm.html:77
+#: .\fouruc\base\templates\registration\password_reset_done.html:31
+#: .\fouruc\base\templates\registration\password_reset_form.html:34
+msgid "Signup"
+msgstr "Cadastre-se"
+
+#: .\fouruc\base\templates\accounts\register.html:59
+msgid "Register"
+msgstr "Registro"
+
+#: .\fouruc\base\templates\accounts\register.html:63
+msgid "Already have an account?"
+msgstr "Não possui uma conta?"
+
+#: .\fouruc\base\templates\registration\password_reset_complete.html:4
+msgid "Complete Reset Password"
+msgstr "Redefinição de senha"
+
+#: .\fouruc\base\templates\registration\password_reset_complete.html:24
+#: .\fouruc\base\templates\registration\password_reset_done.html:25
+msgid "Password reset"
+msgstr "Redefinição de senha"
+
+#: .\fouruc\base\templates\registration\password_reset_complete.html:25
+msgid "Your password has been set.  You may go ahead and log in now."
+msgstr "Sua senha foi definida. Agora você pode acessar na conta."
+
+#: .\fouruc\base\templates\registration\password_reset_confirm.html:4
+#: .\fouruc\base\templates\registration\password_reset_done.html:4
+#: .\fouruc\base\templates\registration\password_reset_form.html:4
+msgid "Reset Password"
+msgstr "Resetar minha senha"
+
+#: .\fouruc\base\templates\registration\password_reset_confirm.html:27
+msgid "Password reset confirmation"
+msgstr "Confirmação de redefinição de senha"
+
+#: .\fouruc\base\templates\registration\password_reset_confirm.html:28
+msgid ""
+"Please enter your new password twice so we can verify you typed it in "
+"correctly."
+msgstr ""
+"Digite sua nova senha duas vezes para que possamos verificar se você a "
+"digitou corretamente."
+
+#: .\fouruc\base\templates\registration\password_reset_confirm.html:39
+msgid "New password"
+msgstr "Nova senha"
+
+#: .\fouruc\base\templates\registration\password_reset_confirm.html:46
+msgid "Confirm password"
+msgstr "Confirme a Senha"
+
+#: .\fouruc\base\templates\registration\password_reset_confirm.html:49
+msgid "Change my password"
+msgstr "Mudar minha senha"
+
+#: .\fouruc\base\templates\registration\password_reset_confirm.html:74
+msgid "Link Invalid"
+msgstr "Link Inválido"
+
+#: .\fouruc\base\templates\registration\password_reset_confirm.html:75
+msgid ""
+"The password reset link was invalid, possibly because it has already been "
+"used. Please request a new password reset."
+msgstr ""
+"O link de redefinição de senha é inválido, possivelmente porque já foi "
+"usado. Solicite uma nova redefinição de senha."
+
+#: .\fouruc\base\templates\registration\password_reset_done.html:27
+msgid ""
+"We’ve emailed you instructions for setting your password, if an account "
+"exists with the email you entered. You should receive them shortly."
+msgstr ""
+"Enviamos por e-mail instruções para definir sua senha, se existir uma conta "
+"com o e-mail que você digitou. Você deve recebê-los em breve."
+
+#: .\fouruc\base\templates\registration\password_reset_done.html:29
+msgid ""
+"If you don’t receive an email, please make sure you’ve entered the address "
+"you registered with, and check your spam folder."
+msgstr ""
+"Se você não recebeu um e-mail, certifique-se de inserir o endereço com o "
+"qual se registrou e verifique sua pasta de spam."
+
+#: .\fouruc\base\templates\registration\password_reset_email.html:2
+#, python-format
+msgid ""
+"You're receiving this email because you requested a password reset for your "
+"user account at %(site_name)s."
+msgstr ""
+"Você está recebendo este e-mail porque solicitou uma redefinição de senha "
+"para o sua conta de usuário em %(site_name)s. "
+
+#: .\fouruc\base\templates\registration\password_reset_email.html:4
+msgid "Please go to the following page and choose a new password:"
+msgstr "Vá para a seguinte página e escolha uma nova senha:"
+
+#: .\fouruc\base\templates\registration\password_reset_email.html:8
+msgid "Your username, in case you’ve forgotten:"
+msgstr "Seu nome de usuário, caso tenha esquecido:"
+
+#: .\fouruc\base\templates\registration\password_reset_email.html:10
+msgid "Thanks for using our site!"
+msgstr "Obrigado por usar nosso site"
+
+#: .\fouruc\base\templates\registration\password_reset_email.html:12
+#, python-format
+msgid "The %(site_name)s team"
+msgstr ""
+
+#: .\fouruc\base\templates\registration\password_reset_form.html:24
+msgid "Confirm Email"
+msgstr "Confirme o Email"
+
+#: .\fouruc\base\templates\registration\password_reset_form.html:29
+msgid "Email address"
+msgstr "Endereço de e-mail"
+
+#: .\fouruc\base\templates\registration\password_reset_form.html:31
+msgid "Reset my password"
+msgstr "Resetar minha senha"
