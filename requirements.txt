@@ -10,6 +10,7 @@ colorama==0.4.4
 dj-database-url==0.5.0
 Django==3.2.2
 django-s3-folder-storage==0.5
+django-session-timeout==0.1.0
 django-storages==1.11.1
 gunicorn==20.1.0
 idna==2.10
