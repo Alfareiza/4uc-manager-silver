@@ -39,8 +39,11 @@
                         {{ form.username }}
                     </div>
 
-                    <div class="input-group mb-4">
-                        {{ form.password }}
+                    <div class="input-group mb-3">
+                            {{ form.password }}
+                        <div class="input-group-append">
+                            <i class="input-group-text feather icon-eye" style="cursor: pointer;" id="togglePassword"></i>
+                        </div>
                     </div>
 
                     <div class="form-group text-left">
@@ -64,5 +67,20 @@
         </div>
     </div>
 </div>
+
+<script type="text/javascript">
+    // How to Toggle Password Visibility
+    const togglePassword = document.querySelector('#togglePassword');
+    const password = document.querySelector('#id_password');
+    console.log(togglePassword)
+    console.log(password)
+    togglePassword.addEventListener('click', function (e) {
+    // toggle the type attribute
+    const type = password.getAttribute('type') === 'password' ? 'text' : 'password';
+    password.setAttribute('type', type);
+    // toggle the eye / eye slash icon
+    this.classList.toggle('icon-eye-off');
+    });
+</script>
 
 {% endblock content %}
