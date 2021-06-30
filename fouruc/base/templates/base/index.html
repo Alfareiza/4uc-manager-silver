@@ -20,6 +20,296 @@
             <div class="page-wrapper">
                 <!-- [ Main Content ] start -->
                 <div class="row">
+
+                    <div class="col-md-3 col-xl-4">
+                        <div class="card theme-bg btn-semi-rounded">
+                            <div class="card-block customer-visitor">
+                                <h2 class="text-white text-right mt-2 f-w-300">{{ players|length }}</h2>
+                                <span class="text-white text-right d-block">Players</span>
+                                <i class="fas fa-play-circle text-white"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3 col-xl-4">
+                        <div class="card bg-c-purple btn-semi-rounded">
+                            <div class="card-block customer-visitor">
+                                <h2 class="text-white text-right mt-2 f-w-300">{{ contents|length }}</h2>
+                                <span class="text-white text-right d-block">Conteúdos</span>
+                                <i class="fas fa-video text-white"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3 col-xl-4">
+                        <div class="card bg-c-blue btn-semi-rounded">
+                            <div class="card-block customer-visitor">
+                                <h2 class="text-white text-right mt-2 f-w-300">{{ playlists|length }}</h2>
+                                <span class="text-white text-right d-block">Playlists</span>
+                                <i class="fas fa-film text-white"></i>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-xl-12 col-md-6 m-b-30">
+                        <ul class="nav nav-tabs" id="myTab" role="tablist">
+                            <li class="nav-item">
+                                <a class="nav-link active show" id="home-tab" data-toggle="tab" href="#players"
+                                   role="tab"
+                                   aria-controls="players" aria-selected="true">Players</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" id="profile-tab" data-toggle="tab" href="#playlists"
+                                   role="tab" aria-controls="playlists" aria-selected="false">Playlists</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" id="contact-tab" data-toggle="tab" href="#contents" role="tab"
+                                   aria-controls="contents" aria-selected="false">Conteúdos</a>
+                            </li>
+                        </ul>
+                        <div class="tab-content" id="myTabContent">
+                            <div class="tab-pane fade active show" id="players" role="tabpanel"
+                                 aria-labelledby="players-tab">
+                                <table class="table table-hover">
+                                    <thead>
+                                    <tr>
+                                        <th>SO</th>
+                                        <th>ID</th>
+                                        <th>Nome</th>
+                                        <th>Status</th>
+                                        <th>Data Envio Ultimo Log</th>
+                                        <th class="text-right"></th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    {% now "w" as current_number_day_in_week %}
+                                    {% for player in players %}
+                                    <tr>
+                                        <td>
+                                            {% if player.platform == "ANDROID" %}
+                                            <img class="rounded-circle m-r-10" style="width:40px;"
+                                                 src="{% static 'img/platform/android.png' %}" alt="activity-user">
+                                            {% elif player.platform == "SAMSUNG" %}
+                                            <img class="rounded-circle m-r-10" style="width:40px;"
+                                                 src="{% static 'img/platform/samsung.png' %}" alt="activity-user">
+                                            {% elif player.platform == "LG" %}
+                                            <img class="rounded-circle m-r-10" style="width:40px;"
+                                                 src="{% static 'img/platform/lg.png' %}" alt="activity-user">
+                                            {% elif player.platform == "4YOUSEE_PLAYER" %}
+                                            <img class="rounded-circle m-r-10" style="width:40px;"
+                                                 src="{% static 'img/platform/windows_linux.png' %}"
+                                                 alt="activity-user">
+                                            {% endif %}
+                                        </td>
+                                        <td>
+                                            <h6 class="m-0"><b>{{ player.id }}</b></h6>
+                                        </td>
+                                        <td>
+                                            <h6 class="mb-1">{{ player.name }}</h6>
+                                            {% with playlist_today=player.playlists|dict_key:current_number_day_in_week %}
+                                            <p class="m-0"><b>Playlist: </b>{{ playlist_today.name }}</p>
+                                            <p class="m-0"><b>Grupo: </b>{{ player.group.name }}</p>
+                                            {% endwith %}
+                                        </td>
+                                        {% if player.lastContactInMinutes < 11 %}
+                                        <td>
+                                            <h6 class="m-0 text-c-green">
+                                                <i class="fas fa-circle text-c-green f-10 m-r-15"></i>
+                                                Online
+                                            </h6>
+                                        </td>
+                                        {% elif player.lastContactInMinutes > 11 %}
+                                        <td>
+                                            <h6 class="m-0 text-c-red">
+                                                <i class="fas fa-circle text-c-red f-10 m-r-5" title=""
+                                                   data-toggle="tooltip"
+                                                   data-original-title="Offline"></i>
+                                                {{ player.lastContactInMinutes|minutes_in_time }}
+                                            </h6>
+                                            <p class="f-10"><b>Offline desde </b> {{ player.lastContactInMinutes|date_from_minute }}
+                                            </p>
+                                        </td>
+                                        {% else %}
+                                        <td>
+                                            <h6 class="m-0 text-c-purple">
+                                                <i class="fas fa-circle text-c-purple f-10" title=""
+                                                   data-toggle="tooltip" data-original-title="Não Configurado"></i>
+                                                Sem informações
+                                            </h6>
+                                        </td>
+                                        {% endif %}
+                                        <td>
+                                            <h6 class="m-0">{{ player.lastLogReceived|format_str_date }}</h6>
+                                        </td>
+                                        <td class="user-card">
+                                            <a href="#!" class="label theme-bg text-white f-12">Approve</a>
+                                            <a href="#!" class="label theme-bg2 text-white f-12">Reject</a>
+                                        </td>
+                                    </tr>
+                                    {% empty %}
+                                    <h3 class="f-w-300 d-flex align-items-center m-l-20">Não há players nessa conta</h3>
+                                    <!--<tr>
+                                        <td>
+                                            <h6 class="m-0"><img class="rounded-circle  m-r-10" style="width:40px;"
+                                                                 src="{% static 'img/user/avatar-2.jpg' %}"
+                                                                 alt="activity-user">Albert Andersen</h6>
+                                        </td>
+                                        <td>
+                                            <h6 class="m-0">Jumps over the lazy</h6>
+                                        </td>
+                                        <td>
+                                            <h6 class="m-0">2:37 PM</h6>
+                                        </td>
+                                        <td>
+                                            <h6 class="m-0 text-c-red">Missed</h6>
+                                        </td>
+                                        <td class="text-right"><i class="fas fa-circle text-c-red f-10"></i></td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <h6 class="m-0"><img class="rounded-circle  m-r-10" style="width:40px;"
+                                                                 src="{% static 'img/user/avatar-3.jpg' %}"
+                                                                 alt="activity-user">Silje Larsen</h6>
+                                        </td>
+                                        <td>
+                                            <h6 class="m-0">Dog the quick brown</h6>
+                                        </td>
+                                        <td>
+                                            <h6 class="m-0">10:23 AM</h6>
+                                        </td>
+                                        <td>
+                                            <h6 class="m-0 text-c-purple">Delayed</h6>
+                                        </td>
+                                        <td class="text-right"><i class="fas fa-circle text-c-purple f-10"></i></td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <h6 class="m-0"><img class="rounded-circle  m-r-10" style="width:40px;"
+                                                                 src="{% static 'img/user/avatar-1.jpg' %}"
+                                                                 alt="activity-user">Ida Jorgensen</h6>
+                                        </td>
+                                        <td>
+                                            <h6 class="m-0">The quick brown fox</h6>
+                                        </td>
+                                        <td>
+                                            <h6 class="m-0">4:28 PM</h6>
+                                        </td>
+                                        <td>
+                                            <h6 class="m-0 text-c-green">Done</h6>
+                                        </td>
+                                        <td class="text-right"><i class="fas fa-circle text-c-green f-10"></i></td>
+                                    </tr>-->
+                                    {% endfor %}
+                                    </tbody>
+                                </table>
+
+                            </div>
+                            <div class="tab-pane fade" id="playlists" role="tabpanel" aria-labelledby="playlists-tab">
+                                <table class="table table-hover">
+                                    <thead>
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>Nome</th>
+                                        <th>Tipo</th>
+                                        <th>--</th>
+                                        <th class="text-right">--</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    {% for playlist in playlists %}
+                                    <tr>
+                                        <td>
+                                            <h6 class="m-0"><b>{{ playlist.id }}</b></h6>
+                                        </td>
+                                        <td>
+                                            <h6 class="m-0">{{ playlist.name }}</h6>
+                                        </td>
+                                        <td>
+                                            {% if playlist.isSubPlaylist is False %}
+                                            <h6 class="m-0 text-c-green">Playlist</h6>
+                                            {% else %}
+                                            <h6 class="m-0 text-c-purple">SubPlaylist</h6>
+                                            {% endif %}
+                                        </td>
+                                        <td>
+                                            <h6 class="m-0">--</h6>
+                                        </td>
+                                        <td class="user-card">
+                                            <a href="#!" class="label theme-bg text-white f-12">Approve</a>
+                                            <a href="#!" class="label theme-bg2 text-white f-12">Reject</a>
+                                        </td>
+                                    </tr>
+                                    {% empty %}
+                                    <h3 class="f-w-300 d-flex align-items-center m-l-20">Não há players nessa conta</h3>
+                                    {% endfor %}
+                                    </tbody>
+                                </table>
+
+                            </div>
+                            <div class="tab-pane fade" id="contents" role="tabpanel" aria-labelledby="contents-tab">
+                                <table class="table table-hover">
+                                    <thead>
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>Nome</th>
+                                        <th>Categoria</th>
+                                        <th class="text-right"></th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    {% for content in contents %}
+                                    <tr>
+                                        <td>
+                                            <h6 class="m-0"><b>{{ content.id }}</b></h6>
+                                        </td>
+                                        <td>
+                                            <h6 class="m-0">{{ content.name }}</h6>
+                                            <h6 class="m-0 text-muted f-10">
+                                                {% if content.schedule.startDate is not None and content.schedule.endDate is not None %}
+                                                    <i class="feather icon-calendar text-c-green f-15"></i>
+                                                    {{ content.schedule.startDate }} - {{ content.schedule.endDate }}
+                                                    {% elif content.schedule.startDate %}
+                                                        <i class="feather icon-calendar text-c-green f-15"></i>
+                                                        {{ content.schedule.startDate }}
+                                                    {% elif content.schedule.endDate %}
+                                                        <i class="feather icon-calendar text-c-green f-15"></i>
+                                                        {{ content.schedule.endDate }}
+                                                {% endif %}
+                                                {% if content.schedule.times %}
+                                                    {% for time in content.schedule.times %}
+                                                        <br>
+                                                        <i class="feather icon-clock text-c-green f-15"></i>
+                                                        Desde {{ time.startTime }} até {{ time.endTime }}
+                                                        <i class="m-l-5 feather icon-bookmark text-c-green f-15 m-l-5"></i>
+                                                        {% for weekDay in time.weekDays %}
+                                                            {{ weekDay|number_day_to_name_day }}
+                                                        {% endfor %}
+                                                    {% endfor %}
+                                                {% endif %}
+                                            </h6>
+
+                                        </td>
+                                        <td>
+                                            <div class="row">
+                                                {% for category in content.categories %}
+                                                <span class="m-0 mb-1 label btn-semi-rounded bg-c-blue text-white f-12"
+                                                      data-toggle="tooltip" data-original-title="{{ category.id }}">
+                                                    {{ category.name }}</span>
+                                                {% endfor %}
+                                            </div>
+                                        </td>
+                                        <td class="user-card">
+                                            <a href="#!" class="label theme-bg text-white f-12">Approve</a>
+                                            <a href="#!" class="label theme-bg2 text-white f-12">Reject</a>
+                                        </td>
+                                    </tr>
+                                    {% empty %}
+                                    <h3 class="f-w-300 d-flex align-items-center m-l-20">Não há players nessa conta</h3>
+                                    {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
                     <!--[ daily sales section ] start-->
                     <div class="col-md-6 col-xl-4">
                         <div class="card daily-sales">
@@ -89,280 +379,6 @@
                         </div>
                     </div>
                     <!--[ year  sales section ] end-->
-
-                    <div class="col-xl-8 col-md-12 m-b-30">
-                        <ul class="nav nav-tabs" id="myTab" role="tablist">
-                            <li class="nav-item">
-                                <a class="nav-link active show" id="home-tab" data-toggle="tab" href="#home" role="tab"
-                                   aria-controls="home" aria-selected="false">Players</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile"
-                                   role="tab" aria-controls="profile" aria-selected="true">Playlists</a>
-                            </li>
-                            <li class="nav-item">
-                            <a class="nav-link" id="contact-tab" data-toggle="tab" href="#contact" role="tab"
-                               aria-controls="contact" aria-selected="false">Conteúdos</a>
-                            </li>
-                        </ul>
-                        <div class="tab-content" id="myTabContent">
-                            <div class="tab-pane fade" id="home" role="tabpanel" aria-labelledby="home-tab">
-                                <table class="table table-hover">
-                                    <thead>
-                                    <tr>
-                                        <th>Id</th>
-                                        <th>Nome</th>
-                                        <th>Time</th>
-                                        <th>Status</th>
-                                        <th class="text-right"></th>
-                                    </tr>
-                                    </thead>
-                                    <tbody>
-                                    <tr>
-                                        <td>
-                                            <h6 class="m-0"><img class="rounded-circle m-r-10" style="width:40px;"
-                                                                 src="{% static 'img/user/avatar-1.jpg' %}"
-                                                                 alt="activity-user">Ida Jorgensen</h6>
-                                        </td>
-                                        <td>
-                                            <h6 class="m-0">The quick brown fox</h6>
-                                        </td>
-                                        <td>
-                                            <h6 class="m-0">3:28 PM</h6>
-                                        </td>
-                                        <td>
-                                            <h6 class="m-0 text-c-green">Done</h6>
-                                        </td>
-                                        <td class="text-right"><i class="fas fa-circle text-c-green f-10"></i></td>
-                                    </tr>
-
-                                    <tr>
-                                        <td>
-                                            <h6 class="m-0"><img class="rounded-circle  m-r-10" style="width:40px;"
-                                                                 src="{% static 'img/user/avatar-2.jpg' %}"
-                                                                 alt="activity-user">Albert Andersen</h6>
-                                        </td>
-                                        <td>
-                                            <h6 class="m-0">Jumps over the lazy</h6>
-                                        </td>
-                                        <td>
-                                            <h6 class="m-0">2:37 PM</h6>
-                                        </td>
-                                        <td>
-                                            <h6 class="m-0 text-c-red">Missed</h6>
-                                        </td>
-                                        <td class="text-right"><i class="fas fa-circle text-c-red f-10"></i></td>
-                                    </tr>
-
-                                    <tr>
-                                        <td>
-                                            <h6 class="m-0"><img class="rounded-circle  m-r-10" style="width:40px;"
-                                                                 src="{% static 'img/user/avatar-3.jpg' %}"
-                                                                 alt="activity-user">Silje Larsen</h6>
-                                        </td>
-                                        <td>
-                                            <h6 class="m-0">Dog the quick brown</h6>
-                                        </td>
-                                        <td>
-                                            <h6 class="m-0">10:23 AM</h6>
-                                        </td>
-                                        <td>
-                                            <h6 class="m-0 text-c-purple">Delayed</h6>
-                                        </td>
-                                        <td class="text-right"><i class="fas fa-circle text-c-purple f-10"></i></td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <h6 class="m-0"><img class="rounded-circle  m-r-10" style="width:40px;"
-                                                                 src="{% static 'img/user/avatar-1.jpg' %}"
-                                                                 alt="activity-user">Ida Jorgensen</h6>
-                                        </td>
-                                        <td>
-                                            <h6 class="m-0">The quick brown fox</h6>
-                                        </td>
-                                        <td>
-                                            <h6 class="m-0">4:28 PM</h6>
-                                        </td>
-                                        <td>
-                                            <h6 class="m-0 text-c-green">Done</h6>
-                                        </td>
-                                        <td class="text-right"><i class="fas fa-circle text-c-green f-10"></i></td>
-                                    </tr>
-                                    </tbody>
-                                </table>
-
-                            </div>
-                            <div class="tab-pane fade active show" id="profile" role="tabpanel"
-                                 aria-labelledby="profile-tab">
-                                <table class="table table-hover">
-                                    <thead>
-                                    <tr>
-                                        <th>User</th>
-                                        <th>Activity</th>
-                                        <th>Time</th>
-                                        <th>Status</th>
-                                        <th class="text-right"></th>
-                                    </tr>
-                                    </thead>
-                                    <tbody>
-                                    <tr>
-                                        <td>
-                                            <h6 class="m-0"><img class="rounded-circle  m-r-10" style="width:40px;"
-                                                                 src="{% static 'img/user/avatar-2.jpg' %}"
-                                                                 alt="activity-user">Albert Andersen</h6>
-                                        </td>
-                                        <td>
-                                            <h6 class="m-0">Jumps over the lazy</h6>
-                                        </td>
-                                        <td>
-                                            <h6 class="m-0">2:37 PM</h6>
-                                        </td>
-                                        <td>
-                                            <h6 class="m-0 text-c-red">Missed</h6>
-                                        </td>
-                                        <td class="text-right"><i class="fas fa-circle text-c-red f-10"></i></td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <h6 class="m-0"><img class="rounded-circle m-r-10" style="width:40px;"
-                                                                 src="{% static 'img/user/avatar-1.jpg' %}"
-                                                                 alt="activity-user">Ida Jorgensen</h6>
-                                        </td>
-                                        <td>
-                                            <h6 class="m-0">The quick brown fox</h6>
-                                        </td>
-                                        <td>
-                                            <h6 class="m-0">3:28 PM</h6>
-                                        </td>
-                                        <td>
-                                            <h6 class="m-0 text-c-green">Done</h6>
-                                        </td>
-                                        <td class="text-right"><i class="fas fa-circle text-c-green f-10"></i></td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <h6 class="m-0"><img class="rounded-circle  m-r-10" style="width:40px;"
-                                                                 src="{% static 'img/user/avatar-1.jpg' %}"
-                                                                 alt="activity-user">Ida Jorgensen</h6>
-                                        </td>
-                                        <td>
-                                            <h6 class="m-0">The quick brown fox</h6>
-                                        </td>
-                                        <td>
-                                            <h6 class="m-0">4:28 PM</h6>
-                                        </td>
-                                        <td>
-                                            <h6 class="m-0 text-c-green">Done</h6>
-                                        </td>
-                                        <td class="text-right"><i class="fas fa-circle text-c-green f-10"></i></td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <h6 class="m-0"><img class="rounded-circle  m-r-10" style="width:40px;"
-                                                                 src="{% static 'img/user/avatar-3.jpg' %}"
-                                                                 alt="activity-user">Silje Larsen</h6>
-                                        </td>
-                                        <td>
-                                            <h6 class="m-0">Dog the quick brown</h6>
-                                        </td>
-                                        <td>
-                                            <h6 class="m-0">10:23 AM</h6>
-                                        </td>
-                                        <td>
-                                            <h6 class="m-0 text-c-purple">Delayed</h6>
-                                        </td>
-                                        <td class="text-right"><i class="fas fa-circle text-c-purple f-10"></i></td>
-                                    </tr>
-                                    </tbody>
-                                </table>
-
-                            </div>
-                            <div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">
-                                <table class="table table-hover">
-                                    <thead>
-                                    <tr>
-                                        <th>User</th>
-                                        <th>Activity</th>
-                                        <th>Time</th>
-                                        <th>Status</th>
-                                        <th class="text-right"></th>
-                                    </tr>
-                                    </thead>
-                                    <tbody>
-                                    <tr>
-                                        <td>
-                                            <h6 class="m-0"><img class="rounded-circle  m-r-10" style="width:40px;"
-                                                                 src="{% static 'img/user/avatar-3.jpg' %}"
-                                                                 alt="activity-user">Silje Larsen</h6>
-                                        </td>
-                                        <td>
-                                            <h6 class="m-0">Dog the quick brown</h6>
-                                        </td>
-                                        <td>
-                                            <h6 class="m-0">10:23 AM</h6>
-                                        </td>
-                                        <td>
-                                            <h6 class="m-0 text-c-purple">Delayed</h6>
-                                        </td>
-                                        <td class="text-right"><i class="fas fa-circle text-c-purple f-10"></i></td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <h6 class="m-0"><img class="rounded-circle m-r-10" style="width:40px;"
-                                                                 src="{% static 'img/user/avatar-1.jpg' %}"
-                                                                 alt="activity-user">Ida Jorgensen</h6>
-                                        </td>
-                                        <td>
-                                            <h6 class="m-0">The quick brown fox</h6>
-                                        </td>
-                                        <td>
-                                            <h6 class="m-0">3:28 PM</h6>
-                                        </td>
-                                        <td>
-                                            <h6 class="m-0 text-c-green">Done</h6>
-                                        </td>
-                                        <td class="text-right"><i class="fas fa-circle text-c-green f-10"></i></td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <h6 class="m-0"><img class="rounded-circle  m-r-10" style="width:40px;"
-                                                                 src="{% static 'img/user/avatar-2.jpg' %}"
-                                                                 alt="activity-user">Albert Andersen</h6>
-                                        </td>
-                                        <td>
-                                            <h6 class="m-0">Jumps over the lazy</h6>
-                                        </td>
-                                        <td>
-                                            <h6 class="m-0">2:37 PM</h6>
-                                        </td>
-                                        <td>
-                                            <h6 class="m-0 text-c-red">Missed</h6>
-                                        </td>
-                                        <td class="text-right"><i class="fas fa-circle text-c-red f-10"></i></td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <h6 class="m-0"><img class="rounded-circle  m-r-10" style="width:40px;"
-                                                                 src="{% static 'img/user/avatar-1.jpg' %}"
-                                                                 alt="activity-user">Ida Jorgensen</h6>
-                                        </td>
-                                        <td>
-                                            <h6 class="m-0">The quick brown fox</h6>
-                                        </td>
-                                        <td>
-                                            <h6 class="m-0">4:28 PM</h6>
-                                        </td>
-                                        <td>
-                                            <h6 class="m-0 text-c-green">Done</h6>
-                                        </td>
-                                        <td class="text-right"><i class="fas fa-circle text-c-green f-10"></i></td>
-                                    </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
-
                     <!-- [ statistics year chart ] start -->
                     <div class="col-xl-4 col-md-6">
                         <div class="card card-event">
@@ -523,7 +539,7 @@
                     </div>
                     <!--[social-media section] end-->
                     <!-- [ rating list ] starts-->
-                    <!--<div class="col-xl-4 col-md-6">
+                    <div class="col-xl-4 col-md-6">
                         <div class="card user-list">
                             <div class="card-header">
                                 <h5>Rating</h5>
@@ -592,56 +608,18 @@
                                 </div>
                             </div>
                         </div>
-                    </div>-->
+                    </div>
                     <!-- [ rating list ] end-->
                     <!--[ Recent Users ] start-->
-                    <div class="col-xl-8 col-md-6">
+                    <div class="col-xl-12 col-md-6">
                         <div class="card Recent-Users">
                             <div class="card-header">
-                                <h5>{{ name|default:"Lorem Ipsum" }}</h5>
+                                <h5>Users</h5>
                             </div>
                             <div class="card-block px-0 py-3">
                                 <div class="table-responsive">
                                     <table class="table table-hover">
                                         <tbody>
-                                        {% now "w" as current_day_in_week %}
-                                        {% for player in players %}
-                                        <tr class="unread">
-                                            {% with n='123'|make_list|random %}
-                                            <td>
-                                                <img class="rounded-circle" style="width:40px;"
-                                                     src="{% static 'img/user/avatar-'|add:n|add:'.jpg' %}"
-                                                     alt="activity-user">
-                                            </td>
-                                            {% endwith %}
-                                            <td>
-                                                <h6 class="mb-1"><b>{{player.id}}</b> - {{ player.name }}</h6>
-                                                {% with playlist_today=player.playlists|dict_key:current_day_in_week %}
-                                                <p class="m-0"><b>Playlist: </b>{{ playlist_today.name }}</p>
-                                                <p class="m-0"><b>Grupo: </b>{{ player.group.name }}</p>
-                                                {% endwith %}
-                                            </td>
-                                            {% if player.lastContactInMinutes < 11 %}
-                                            <td>
-                                                <h6 class="text-muted">
-                                                    <i class="fas fa-circle text-c-green f-10 m-r-15"></i>
-                                                    Online
-                                                </h6>
-                                            </td>
-                                            {% else %}
-                                            <td>
-                                                <h6 class="text-muted">
-                                                    <i class="fas fa-circle text-c-red f-10 m-r-15"></i>
-                                                    {{ player.lastContactInMinutes|minutes_in_time }}
-                                                </h6>
-                                            </td>
-                                            {% endif %}
-                                            <td><a href="#!" class="label theme-bg2 text-white f-12">Reject</a><a
-                                                    href="#!" class="label theme-bg text-white f-12">Approve</a></td>
-                                        </tr>
-                                        {% empty %}
-                                        <h3 class="f-w-300 d-flex align-items-center m-l-20">Não há players nessa
-                                            conta</h3>
                                         <tr class="unread">
                                             <td><img class="rounded-circle" style="width:40px;"
                                                      src="{% static 'img/user/avatar-1.jpg' %}" alt="activity-user">
@@ -674,7 +652,6 @@
                                             <td><a href="#!" class="label theme-bg2 text-white f-12">Reject</a><a
                                                     href="#!" class="label theme-bg text-white f-12">Approve</a></td>
                                         </tr>
-                                        {% endfor %}
                                         </tbody>
                                     </table>
                                 </div>
