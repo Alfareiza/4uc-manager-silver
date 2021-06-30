@@ -2,16 +2,21 @@ from django.contrib.auth.decorators import login_required
 from django.shortcuts import render
 from fouruc.base.server.main import Client
 from decouple import config
+from django.views.decorators.cache import cache_page
 
 account = Client(token=config('TOKEN_4UC'))
-account.get_players()
 
 
 # print(account.players)
 
+@cache_page(60 * 10)
 @login_required
 def dashboard(request):
-    return render(request, 'base/index.html', context={'name': 'Players', 'players': account.players})
+    account.get_players()
+    account.get_playlists()
+    account.get_medias()
+    return render(request, 'base/index.html',
+                  context={'players': account.players, 'playlists': account.playlists, 'contents': account.medias})
 
 
 @login_required
