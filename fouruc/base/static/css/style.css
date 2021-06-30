@@ -141,6 +141,10 @@ strong {
   background: linear-gradient(-135deg, #899FD4 0%, #A389D4 100%);
 }
 
+.theme-bg3 {
+  background: linear-gradient(-135deg, #236E72 0%, #0D575A 100%);
+}
+
 /* ==========  card css start  =========== */
 .anim-rotate {
   -webkit-animation: anim-rotate 1s linear infinite;
@@ -1323,6 +1327,10 @@ p.text-muted {
 
 /*====== Card top border ends ======*/
 /*====== Font-size css starts ======*/
+.f-7 {
+  font-size: 7px;
+}
+
 .f-10 {
   font-size: 10px;
 }
@@ -7697,6 +7705,10 @@ a.btn-theme.active {
 }
 .btn-rounded {
   border-radius: 30px;
+}
+
+.btn-semi-rounded {
+  border-radius: 15px;
 }
 
 .btn-group .btn {
