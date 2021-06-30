@@ -1,7 +1,7 @@
 import json
 import time
 import requests
-from decouple import Config
+from decouple import config
 
 
 class Client:
@@ -87,6 +87,6 @@ class Client:
 
 
 if __name__ == '__main__':
-    account = Client(Config('TOKEN_4UC'))
+    account = Client(config('TOKEN_4UC'))
     account.get_players()
     print(account.players)
