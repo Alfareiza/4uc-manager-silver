@@ -1,0 +1,83 @@
+{% extends "layouts/base.html" %}
+
+{% load filter_extras %}
+
+{% block title %} Contas {% endblock %}
+
+<!-- Specific CSS goes HERE -->
+{% block stylesheets %}{% endblock stylesheets %}
+
+{% block content %}
+<div class="pcoded-content">
+    <div class="pcoded-inner-content">
+        <!-- [ breadcrumb ] start -->
+        <div class="page-header">
+            <div class="page-block">
+                <div class="row align-items-center">
+                    <div class="col-md-12">
+                        <div class="page-header-title">
+                            <h5 class="m-b-10">Relatórios</h5>
+                        </div>
+                        <ul class="breadcrumb">
+                            <li class="breadcrumb-item"><a href="/"><i class="feather icon-home"></i></a></li>
+                            <li class="breadcrumb-item"><a href="/contas">Solicitar Relatórios</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- [ breadcrumb ] end -->
+        <div class="main-body">
+            <div class="page-wrapper">
+                <!-- [ Main Content ] start -->
+                <div class="row">
+                    <div class="col-sm-12">
+                        {% include 'messages.html' %}
+                        <div class="card">
+                            <div class="card-header">
+                                <h5>Solicitar Relatórios</h5>
+                            </div>
+                            <div class="card-body">
+                                <form action="{% url 'manager:solicitar_relatorio' %}" method="post">
+                                    {% csrf_token %}
+                                    <div class="form-inline row g-3 align-items-top">
+                                        <div class="form-group mx-sm-4">
+                                            <label for="inputConta" class="sr-only">Conta</label>
+                                            <select class="form-control" name="{{ form.conta.name }}" id="{{ form.conta.id }}">
+                                                <option selected>Selecionar conta</option>
+                                                {% for conta in contas.all %}
+                                                <option value="{{ conta.name|lower }}">{{ conta.name|title }}</option>
+                                                {% endfor %}
+                                            </select>
+                                        </div>
+                                        <div class="form-group mx-sm-3">
+                                            <label for="inputStartdate" class="sr-only">startDate</label>
+                                            <h5 class="mr-2 lead">Desde</h5>
+                                            <input type="date" name="{{ form.startdate.name }}" class="form-control">
+                                        </div>
+                                        <div class="form-group mx-sm-3">
+                                            <label for="inputendDate" class="sr-only">endDate</label>
+                                            <h5 class="mr-2 lead">Até</h5>
+                                            <input type="date" name="{{ form.enddate.name }}" class="form-control">
+                                        </div>
+                                        <button type="submit" class="btn btn-primary">Solicitar</button>
+                                    </div>
+                                    <div class="d-flex justify-content-around">
+                                        <small class="form-text text-muted w-25 text-danger">{{ form.errors.conta.as_text }}</small>
+                                        <small class="form-text text-muted w-25 text-danger">{{ form.errors.startdate.as_text }}</small>
+                                        <small class="form-text text-muted w-25 text-danger">{{ form.errors.enddate.as_text }}</small>
+                                        <small class="form-text text-muted"></small>
+                                    </div>
+                                </form>
+                            </div>
+                        </div><!-- [ Adicionar Card Content ] end -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock content %}
+
+<!-- Specific Page JS goes HERE  -->
+{% block javascripts %}{% endblock javascripts %}

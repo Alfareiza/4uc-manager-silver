@@ -18,6 +18,8 @@ from django.urls import path, include
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('', include('fouruc.authentication.urls')),
     path('', include('fouruc.base.urls')),
-    path('', include('fouruc.authentication.urls'))
+    path('contas/', include('fouruc.manager.urls'))
+
 ]
