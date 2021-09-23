@@ -1,3 +1,4 @@
+import itertools
 import math
 import datetime
 from django import template
@@ -63,9 +64,11 @@ def format_str_date(date_time_str):
     :return:
     """
     if date_time_str is not None:
-        date_time_obj = datetime.datetime.strptime(date_time_str, '%Y-%m-%d %H:%M:%S')
+        date_time_obj = datetime.datetime.strptime(str(date_time_str), '%Y-%m-%d %H:%M:%S')
         date_time_obj.strftime("%d %b %Y %H:%M:%S")
+        print(date_time_obj)
         return date_time_obj
+
     else:
         return '-'
 
@@ -89,4 +92,43 @@ def dict_key(dictionary, key):
     :param key: '0' :str
     :return: The value of the dict. Ex: {'id': 3, 'name': 'Novo'} :dict
     """
-    return dictionary[str(key)]
+    return dictionary[int(key)]
+
+
+@register.filter
+def all_records(conta):
+    qty = len(conta.categories.all()) + len(conta.players.all()) + len(conta.playlists.all()) \
+          + len(conta.medias.all()) + len(conta.records.all())
+    return qty
+
+
+@register.filter
+def group_by_day(list_all_objects):
+    """
+    Recebe uma lista de objetos onde cada um deles possui um atributo tipo date e logo ordena eles por dia.
+    :param: list_all_objects: Register.objects.all(): django.db.models.query.QuerySet
+    :return: objects_day_ordered: [[objetos_do_dia_1][objetos_do_dia_2][objetos_do_dia_3]]: list of lists
+    """
+    key_func = lambda x: x.date.day
+    objects_day_ordered = []
+    for key, group in itertools.groupby(list_all_objects, key_func):
+        objects_day_ordered.insert(0, list(group))
+    return objects_day_ordered
+
+
+@register.filter
+def player_full_name(id, conta):
+    try:
+        return (player := conta.players.get(player_id=id))
+    except Exception as e:
+        print('Error: ', e)
+        return f"{id}"
+
+
+@register.filter
+def media_full_name(id, conta):
+    try:
+        return (media := conta.medias.get(media_id=id))
+    except Exception as e:
+        print('Error: ', e)
+        return f"{id}"
