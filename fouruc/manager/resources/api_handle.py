@@ -1,10 +1,9 @@
 import json
 import time
 import requests
-from decouple import config
 
 
-class Client:
+class DataManager:
     def __init__(self, token, name=None, account=None, type=None):
         self.name = name
         self.token = token
@@ -22,6 +21,7 @@ class Client:
         self.newsources = None
         self.videowall = None
         self.reports = None
+        self.playlogs = None
 
     def get_all(self, resource, payload={}):
         allResources = list()
@@ -49,14 +49,17 @@ class Client:
                 break
         return allResources
 
-    def get_users(self):
-        self.users = self.get_all('users')
-
-    def get_user_groups(self):
-        self.user_groups = self.get_all('users/groups')
-
-    def get_uploads(self):
-        self.uploads = self.get_all('uploads')
+    def post(self, token, resource, payload):
+        url = f'https://api.4yousee.com.br/v1/{resource}'
+        headers = {
+            'Content-Type': 'application/json',
+            'Secret-Token': token
+        }
+        time.sleep(1)
+        response = requests.request("POST", url, headers=headers, data=payload)
+        data = json.loads(response.text.encode('utf8'))
+        # print(json.dumps(data, indent=2))
+        return response
 
     def get_medias(self):
         self.medias = self.get_all('medias')
@@ -70,23 +73,29 @@ class Client:
     def get_playlists(self):
         self.playlists = self.get_all('playlists')
 
-    def get_templates(self):
-        self.templates = self.get_all('templates')
-
-    def get_news(self):
-        self.news = self.get_all('news')
-
-    def get_newsources(self):
-        self.newsources = self.get_all('newsources')
-
-    def get_videowall(self):
-        self.videowall = self.get_all('videowall')
-
     def get_reports(self):
         self.reports = self.get_all('reports')
 
+    def post_report(self, params):
+        body_payload = {}
+        for key, value in params.items():
+            body_payload[key] = value
+        body_payload = json.dumps(body_payload, indent=2)
+        resp_report = self.post(self.token, 'reports', body_payload)
+        return resp_report
+
 
 if __name__ == '__main__':
-    account = Client(config('TOKEN_4UC'))
-    account.get_players()
-    print(account.players)
+    cliente = DataManager(token='')
+    # cliente.get_medias()
+    # cliente.get_playlists()
+    cliente.get_players()
+    # cliente.get_media_category()
+    # print(cliente.medias)
+    # print(cliente.playlists)
+    print(cliente.players)
+    # print(cliente.media_category)
+    cliente.post_report(type='detailed', webhook='',
+                        filter={'startDate': '2021-07-20', 'endDate': '2021-07-26',
+                                'startTime': '00:00:00', 'endTime': '23:59:59',
+                                'mediaId': [], 'playerId': [1, 55], 'sort': 1})
