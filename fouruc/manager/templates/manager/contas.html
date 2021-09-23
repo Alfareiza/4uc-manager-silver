@@ -1,0 +1,149 @@
+{% extends "layouts/base.html" %}
+
+{% load filter_extras %}
+
+{% block title %} Contas {% endblock %}
+
+<!-- Specific CSS goes HERE -->
+{% block stylesheets %}{% endblock stylesheets %}
+
+{% block content %}
+
+<div class="pcoded-content">
+    <div class="pcoded-inner-content">
+        <!-- [ breadcrumb ] start -->
+        <div class="page-header">
+            <div class="page-block">
+                <div class="row align-items-center">
+                    <div class="col-md-12">
+                        <div class="page-header-title">
+                            <h5 class="m-b-10">Contas</h5>
+                        </div>
+                        <ul class="breadcrumb">
+                            <li class="breadcrumb-item"><a href="/"><i class="feather icon-home"></i></a></li>
+                            <li class="breadcrumb-item"><a href="/contas">Adicionar Contas</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- [ breadcrumb ] end -->
+        <div class="main-body">
+            <div class="page-wrapper">
+                <!-- [ Main Content ] start -->
+                <div class="row">
+                    <div class="col-sm-12">
+                        {% include 'messages.html' %}
+                        <div class="card">
+                            <div class="card-header">
+                                <h5>Adicionar Conta</h5>
+                            </div>
+                            <div class="card-body">
+                                <form action="{% url 'manager:contas' %}" method="post">
+                                    {% csrf_token %}
+                                    <div class="row g-3 align-items-top">
+                                        <div class="col-sm-5">
+                                            <div>
+                                                <input name="url" type="text" class="form-control"
+                                                       placeholder="URL da Conta" aria-label="URL da Conta">
+                                            </div>
+                                            <small class="form-text text-muted">{{ form.errors.url }}</small>
+                                        </div>
+                                        <div class="col-sm-5">
+                                            <div>
+                                                <input name="token" type="text" class="form-control" placeholder="Token"
+                                                       aria-label="Token">
+                                            </div>
+                                            <small class="form-text text-muted">{{ form.errors.token }}</small>
+                                        </div>
+                                        <div class="col-auto">
+                                            <button type="submit" class="btn btn-primary">Adicionar</button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div><!-- [ Adicionar Card Content ] end -->
+
+                        {% if contas %}
+                        <div class="col-sm-12">
+                            <h5 class="mb-3">Contas</h5>
+                            <hr>
+                        </div>
+                        <div class="row">
+                            {% for conta in contas %}
+                                <div class="col-md-6 col-lg-4">
+                                    <div class="card">
+                                        <div class="card-header">
+                                            <h5><a href="{{ conta.get_absolute_url }}">{{ conta }}</a></h5>
+                                            <span class="d-block pt-2"><a
+                                                    href="{{ conta.url }}" target="_blank">{{ conta.url }}</a></span>
+                                            <div class="card-header-right">
+                                                <div class="btn-group card-option">
+                                                    <button type="button" class="btn dropdown-toggle"
+                                                            data-toggle="dropdown"
+                                                            aria-haspopup="true" aria-expanded="false">
+                                                        <i class="feather icon-more-horizontal"></i>
+                                                    </button>
+                                                    <ul class="list-unstyled card-option dropdown-menu dropdown-menu-right"
+                                                        x-placement="bottom-end"
+                                                        style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(54px, 41px, 0px);">
+
+                                                        <li class="dropdown-item full-card"><a href="#!">
+                                                            <span><i class="feather icon-maximize"></i> maximizar</span>
+                                                            <span style="display:none"><i
+                                                                    class="feather icon-minimize"></i> Restaurar</span></a>
+                                                        </li>
+                                                        <li class="dropdown-item minimize-card"><a href="#!">
+                                                            <span><i class="feather icon-minus"></i> colapsar</span>
+                                                            <span style="display:none"><i class="feather icon-plus"></i> expandir</span></a>
+                                                        </li>
+                                                        <li class="dropdown-item">
+                                                            <a href="{{ conta.get_absolute_url }}"><i class="feather icon-file-text"></i> Ver Mais</a>
+                                                        </li>
+                                                        <li class="dropdown-item close-card">
+                                                            <a href="{% url 'manager:delete' conta.slug %}">
+                                                                <i class="feather icon-trash"></i><span class="text-danger">eliminar</span></a>
+                                                        </li>
+
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="card-body">
+                                            {% if conta|all_records %}
+                                            <div>
+                                                <p class="card-text mb-0">Playlogs: {{ conta.records.all|length }}</p>
+                                                <p class="card-text mb-0">Players: {{ conta.players.all|length }}</p>
+                                                <p class="card-text mb-0">Playlists: {{ conta.playlists.all|length }}</p>
+                                                <p class="card-text mb-0">Conteúdos: {{ conta.medias.all|length }}</p>
+                                                <p class="card-text">Categorias: {{ conta.categories.all|length }}</p>
+                                            </div>
+                                            {% else %}
+                                            <div class="mt-2 mb-4 text-center">
+                                                <p class="lead">Sem Informações</p>
+                                            </div>
+                                            {% endif %}
+                                        </div>
+                                    </div>
+                                </div>
+                            {% empty %}
+                            {% endfor %}
+                        </div>
+                        {% else %}
+                        <div class="mt-5 text-center">
+                            <h3 class="display-5 text-muted">Não há contas registradas</h3>
+                        </div>
+                        {% endif %}
+
+                    </div>
+                </div>
+                <!-- [ Main Content ] end -->
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock content %}
+
+<!-- Specific Page JS goes HERE  -->
+{% block javascripts %}{% endblock javascripts %}
