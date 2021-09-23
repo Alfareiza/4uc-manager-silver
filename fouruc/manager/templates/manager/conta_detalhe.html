@@ -1,0 +1,441 @@
+{% extends "layouts/base.html" %}
+
+{% load static %}
+
+{% load filter_extras %}
+
+{% block title %}Conta - {{ conta }}{% endblock %}
+
+<!-- Specific CSS goes HERE -->
+{% block stylesheets %}{% endblock stylesheets %}
+
+{% block content %}
+
+<div class="pcoded-content">
+    <div class="pcoded-inner-content">
+
+        <div class="main-body">
+            <div class="page-wrapper">
+                <div class="page-header"> <!-- [ breadcrumb ] start -->
+                    <div class="page-block">
+                        <div class="row align-items-center">
+                            <div class="col-md-12">
+                                <div class="page-header-title">
+                                    <div class="row mb-0 justify-content-between">
+                                        <div class="col-4">
+                                            <h5 class="m-b-10">{{ conta }}</h5>
+                                        </div>
+                                        <div class="col-4 text-right">
+                                             <button type="button" class="btn p-0 dropdown-toggle"
+                                                    data-toggle="dropdown" style="background: transparent;"
+                                                    aria-haspopup="true" aria-expanded="false">
+                                                <i class="feather icon-more-horizontal"></i>
+                                            </button>
+                                            <ul class="list-unstyled card-option dropdown-menu dropdown-menu-right"
+                                                x-placement="bottom-end"
+                                                style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(54px, 41px, 0px);">
+                                                <li class="dropdown-item">
+                                                    <a href="{% url 'manager:update_data_account' conta.slug %}">
+                                                        <i class="feather icon-refresh-ccw"></i>Atualizar Dados</a>
+                                                </li>
+                                                <li class="dropdown-item">
+                                                    <a href="{% url 'manager:contas' %}"><i class="feather icon-file-text"></i>Ver Contas</a>
+                                                </li>
+                                                <li class="dropdown-item">
+                                                    <a href="{% url 'manager:delete' conta.slug %}">
+                                                        <i class="feather icon-trash"></i><span class="text-danger">Eliminar Conta</span></a>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                                <ul class="breadcrumb">
+                                    <li class="breadcrumb-item"><a href="/"><i class="feather icon-home"></i></a></li>
+                                    <li class="breadcrumb-item"><a href="{% url 'manager:contas' %}">Cuentas</a></li>
+                                    <li class="breadcrumb-item"><a href="#">{{ conta }}</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div> <!-- [ breadcrumb ] end -->
+                <!-- [ Main Content ] start -->
+                <div class="row">
+                    {% include 'messages.html' %}
+                    <div class="col-md-3 col-xl-4">
+                        <div class="card theme-bg btn-semi-rounded">
+                            <div class="card-block customer-visitor">
+                                <h2 class="text-white text-right mt-2 f-w-300">{{ conta.players.all|length }}</h2>
+                                <span class="text-white text-right d-block">Players</span>
+                                <i class="fas fa-play-circle text-white"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3 col-xl-4">
+                        <div class="card bg-c-purple btn-semi-rounded">
+                            <div class="card-block customer-visitor">
+                                <h2 class="text-white text-right mt-2 f-w-300">{{ conta.medias.all|length }}</h2>
+                                <span class="text-white text-right d-block">Conteúdos</span>
+                                <i class="fas fa-video text-white"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3 col-xl-4">
+                        <div class="card bg-c-blue btn-semi-rounded">
+                            <div class="card-block customer-visitor">
+                                <h2 class="text-white text-right mt-2 f-w-300">{{ conta.playlists.all|length }}</h2>
+                                <span class="text-white text-right d-block">Playlists</span>
+                                <i class="fas fa-film text-white"></i>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-xl-12 col-md-6 m-b-30">
+                        <ul class="nav nav-tabs" id="myTab" role="tablist">
+                            <li class="nav-item">
+                                <a class="nav-link active show" id="players-tab" data-toggle="tab" href="#players"
+                                   role="tab" aria-controls="players" aria-selected="true">Players</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" id="playlists-tab" data-toggle="tab" href="#playlists"
+                                   role="tab" aria-controls="playlists" aria-selected="false">Playlists</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" id="contents-tab" data-toggle="tab" href="#contents" role="tab"
+                                   aria-controls="contents" aria-selected="false">Conteúdos</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" id="categories-tab" data-toggle="tab" href="#categories" role="tab"
+                                   aria-controls="contents" aria-selected="false">Categorias</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" id="playlogs-tab" data-toggle="tab" href="#playlogs" role="tab"
+                                   aria-controls="contents" aria-selected="false">Playlogs</a>
+                            </li>
+                        </ul>
+                        <div class="tab-content" id="myTabContent">
+                            <div class="tab-pane fade active show" id="players" role="tabpanel"
+                                 aria-labelledby="players-tab">
+                                {% if conta.players.all %}
+                                <table class="table table-hover">
+                                    <thead>
+                                    <tr>
+                                        <th>SO</th>
+                                        <th>ID</th>
+                                        <th>Nome</th>
+                                        <th>Status</th>
+                                        <th>Data Envio Ultimo Log</th>
+                                        <th>Operações</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    {% for player in conta.players.all %}
+                                    <tr>
+                                        <td>
+                                            {% if player.platform == "ANDROID" %}
+                                            <img class="rounded-circle m-r-10" style="width:40px; -webkit-box-shadow: 0 5px 10px 0 rgba(0,0,0,.2);"
+                                                 src="{% static 'img/platform/android.png' %}" alt="activity-user">
+                                            {% elif player.platform == "SAMSUNG" %}
+                                            <img class="rounded-circle m-r-10" style="width:40px; -webkit-box-shadow: 0 5px 10px 0 rgba(0,0,0,.2);"
+                                                 src="{% static 'img/platform/samsung.png' %}" alt="activity-user">
+                                            {% elif player.platform == "LG" %}
+                                            <img class="rounded-circle m-r-10" style="width:40px; -webkit-box-shadow: 0 5px 10px 0 rgba(0,0,0,.2);"
+                                                 src="{% static 'img/platform/lg.png' %}" alt="activity-user">
+                                            {% elif player.platform == "4YOUSEE_PLAYER" %}
+                                            <img class="rounded-circle m-r-10" style="width:40px; -webkit-box-shadow: 0 5px 10px 0 rgba(0,0,0,.2);"
+                                                 src="{% static 'img/platform/windows_linux.png' %}"
+                                                 alt="activity-user">
+                                            {% endif %}
+                                        </td>
+                                        <td>
+                                            <h6 class="m-0"><b>{{ player.player_id }}</b></h6>
+                                        </td>
+                                        <td>
+                                            <h6 class="mb-1">{{ player.name }}</h6>
+                                            <p class="m-0" data-placement="top" data-toggle="tooltip"
+                                               data-original-title="{{ player.playlist.id }}"><b>Playlist: </b>
+                                                {{ player.playlist.name }}</p>
+                                            <p class="m-0" data-placement="top" data-toggle="tooltip"
+                                               data-original-title="{{ player.group_id }}"><b>Grupo: </b>
+                                                {{ player.group_name }}</p>
+                                        </td>
+                                        {% if player.lastContactInMinutes < 11 %}
+                                        <td>
+                                            <h6 class="m-0 text-c-green">
+                                                <i class="fas fa-circle text-c-green f-10 m-r-15"></i>
+                                                Online
+                                            </h6>
+                                        </td>
+                                        {% elif player.lastContactInMinutes > 11 %}
+                                        <td>
+                                            <h6 class="m-0 text-c-red">
+                                                <i class="fas fa-circle text-c-red f-10 m-r-5"
+                                                   data-toggle="tooltip" data-original-title="Offline"></i>
+                                                {{ player.lastContactInMinutes|minutes_in_time }}
+                                            </h6>
+                                            <p class="f-10"><b>Offline desde </b>
+                                                {{ player.lastContactInMinutes|date_from_minute }}
+                                            </p>
+                                        </td>
+                                        {% else %}
+                                        <td>
+                                            <h6 class="m-0 text-c-purple">
+                                                <i class="fas fa-circle text-c-purple f-10" title=""
+                                                   data-toggle="tooltip" data-original-title="Não Configurado"></i>
+                                                Sem informações
+                                            </h6>
+                                        </td>
+                                        {% endif %}
+                                        <td>
+                                            <p class="m-0">
+                                                {{ player.lastLogReceived|date:"j M Y H:i"|default_if_none:'' }}</p>
+                                        </td>
+                                        <td class="user-card">
+                                            <a href="#!" class="label theme-bg text-white f-12">Approve</a>
+                                            <a href="#!" class="label theme-bg2 text-white f-12">Reject</a>
+                                        </td>
+                                    </tr>
+                                    {% endfor %}
+                                    </tbody>
+                                </table>
+                                {% else %}
+                                <div class="mt-3 mb-4 text-center">
+                                    <p class="mt-5 mb-2 lead">Não há players nessa conta</p>
+                                    <a class="ml-3 label bg-c-purple f-12 text-white"
+                                          style="border-radius: 15px; -webkit-box-shadow: 0 5px 10px 0 rgba(0,0,0,.2);"
+                                          href="{% url 'manager:update_players' conta.slug %}">Carregar Dados</a></h5>
+                                </div>
+                                {% endif %}
+                            </div>
+                            <div class="tab-pane fade" id="playlists" role="tabpanel" aria-labelledby="playlists-tab">
+                                {% if conta.playlists.all %}
+                                <table class="table table-hover">
+                                    <thead>
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>Nome</th>
+                                        <th>Tipo</th>
+                                        <th>Players</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    {% for playlist in conta.playlists.all %}
+                                    <tr>
+                                        <td>
+                                            <h6 class="m-0"><b>{{ playlist.playlist_id }}</b></h6>
+                                        </td>
+                                        <td>
+                                            <h6 class="m-0">{{ playlist.name }}</h6>
+                                        </td>
+                                        <td>
+                                            {% if playlist.isSubPlaylist is False %}
+                                            <h6 class="m-0 text-c-green">Playlist</h6>
+                                            {% else %}
+                                            <h6 class="m-0 text-c-purple">SubPlaylist</h6>
+                                            {% endif %}
+                                        </td>
+                                        <td>
+                                            {% if playlist.players.all %}
+                                            <p class="m-0">{{ playlist.players.all|join:", " }}</p>
+                                            {% else %}
+                                            <h6 class="m-0"></h6>
+                                            {% endif %}
+                                        </td>
+                                    </tr>
+                                    {% endfor %}
+                                    </tbody>
+                                </table>
+                                {% else %}
+                                <div class="mt-3 mb-4 text-center">
+                                    <p class="mt-5 mb-2 lead">Não há playlists nessa conta</p>
+                                    <a class="ml-3 label bg-c-purple f-12 text-white"
+                                                                      style="border-radius: 15px; -webkit-box-shadow: 0 5px 10px 0 rgba(0,0,0,.2);"
+                                                                      href="{% url 'manager:update_playlists' conta.slug %}">Carregar Dados</a></h5>
+                                </div>
+                                {% endif %}
+                            </div>
+                            <div class="tab-pane fade" id="contents" role="tabpanel" aria-labelledby="contents-tab">
+                                {% if conta.medias.all %}
+                                <table class="table table-hover">
+                                    <thead>
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>Nome</th>
+                                        <th>Arquivo</th>
+                                        <th>Duração</th>
+                                        <th>Categoria</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    {% for media in conta.medias.all %}
+                                    <tr>
+                                        <td>
+                                            <h6 class="m-0"><b>{{ media.media_id }}</b></h6>
+                                        </td>
+                                        <td>
+                                            <h6 class="m-0">{{ media.name }}</h6>
+                                            <h6 class="m-0 text-muted f-10">
+                                                {% if media.startDate is not None and media.endDate is not None %}
+                                                <i class="feather icon-calendar text-c-green f-15"></i>
+                                                {{ media.startDate }} - {{ media.endDate }}
+                                                {% elif media.startDate %}
+                                                <i class="feather icon-calendar text-c-green f-15"></i>
+                                                {{ media.startDate }}
+                                                {% elif media.endDate %}
+                                                <i class="feather icon-calendar text-c-green f-15"></i>
+                                                {{ media.endDate }}
+                                                {% endif %}
+                                                {% if media.times %}
+                                                {% for time in media.times %}
+                                                <br>
+                                                <i class="feather icon-clock text-c-green f-15"></i>
+                                                Desde {{ time.startTime }} até {{ time.endTime }}
+                                                <i class="m-l-5 feather icon-bookmark text-c-green f-15 m-l-5"></i>
+                                                {% for weekDay in time.weekDays %}
+                                                {{ weekDay|number_day_to_name_day }}
+                                                {% endfor %}
+                                                {% endfor %}
+                                                {% endif %}
+                                            </h6>
+                                        </td>
+                                        <td>
+                                            <p class="m-0">{{ media.file }}</p>
+                                        </td>
+                                        <td>
+                                            <p class="m-0">{{ media.durationInSeconds }}s</p>
+                                        </td>
+                                        <td>
+                                            <div class="row">
+                                                {% for category in media.category.all %}
+                                                <span class="m-0 mb-1 label btn-semi-rounded bg-c-blue text-white f-12"
+                                                      data-toggle="tooltip" data-original-title="{{ category.id }}">
+                                                    {{ category.name }}</span>
+                                                {% endfor %}
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    {% endfor %}
+                                    </tbody>
+                                </table>
+                                {% else %}
+                                <div class="mt-3 mb-4 text-center">
+                                    <p class="mt-5 mb-2 lead">Não há conteúdos nessa conta</p>
+                                    <a class="ml-3 label bg-c-purple f-12 text-white"
+                                                                      style="border-radius: 15px; -webkit-box-shadow: 0 5px 10px 0 rgba(0,0,0,.2);"
+                                                                      href="{% url 'manager:update_medias' conta.slug %}">Carregar Dados</a></h5>
+                                </div>
+                                {% endif %}
+                            </div>
+                            <div class="tab-pane fade" id="categories" role="tabpanel" aria-labelledby="categories-tab">
+                                {% if conta.categories.all %}
+                                <table class="table table-hover">
+                                    <thead>
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>Categoría</th>
+                                        <th>Conteúdos</th>
+                                        <th>Descrição</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    {% for category in conta.categories.all %}
+                                    <tr>
+                                        <td><h6 class="m-0"><b>{{ category.category_id }}</b></h6></td>
+                                        <td><h6 class="m-0">{{ category.name }}</h6></td>
+                                        <td style="white-space: normal;">
+                                            {% if category.medias.all %}
+                                            <p class="m-0">{{ category.medias.all|join:", " }}</p>
+                                            {% else %}
+                                            <h6 class="m-0"></h6>
+                                            {% endif %}
+                                        </td>
+                                        <td style="white-space: normal;">{{ category.description }}</td>
+                                    </tr>
+                                    {% endfor %}
+                                    </tbody>
+                                </table>
+                                {% else %}
+                                <div class="mt-3 mb-4 text-center">
+                                    <p class="mt-5 mb-2 lead">Não há categorias nessa conta</p>
+                                    <a class="ml-3 label bg-c-purple f-12 text-white"
+                                          style="border-radius: 15px; -webkit-box-shadow: 0 5px 10px 0 rgba(0,0,0,.2);"
+                                          href="{% url 'manager:update_categories' conta.slug %}">Carregar Dados</a></h5>
+                                </div>
+                                {% endif %}
+                            </div>
+                            <div class="tab-pane fade" id="playlogs" role="tabpanel" aria-labelledby="playlogs-tab">
+                                <!-- playlogs media -->
+                                {% if conta.records.all %}
+                                <div class="d-flex bd-highlight">
+                                    <div class="mt-2 mr-auto p-2 bd-highlight">
+                                        <p class="lead">{{ conta.records.all|length }} Playlogs</p>
+                                    </div>
+                                    <div class="p-2 bd-highlight">
+                                        <a href="#">
+                                            <button type="button" class="btn btn-secondary btn-sm">
+                                                <i class="bi bi-arrow-clockwise"></i> Solicitar Relatórios
+                                            </button>
+                                        </a>
+                                    </div>
+                                </div>
+                                {% for records_by_day in conta.records.all|group_by_day %}
+                                <div class="accordion" id="accordionExample">
+                                    <div class="card">
+                                        <a href="#!" {% if not forloop.first %}class="collapsed" {% endif %}
+                                           data-toggle="collapse" data-target="#collapseOne" aria-expanded="true"
+                                           aria-controls="collapseOne }}">
+                                            <div class="card-header"
+                                                 id="headingOne">
+                                                <h6 class="mb-0">{{ records_by_day|length }} Playlogs, {{ records_by_day.0.date|date:"d M Y" }}</h6>
+                                            </div>
+                                        </a>
+                                        <div id="collapseOne"
+                                             class="card-body collapse {% if forloop.first %}show{% endif %}"
+                                             aria-labelledby="headingOne" data-parent="#accordionExample">
+                                            <table class="table table-hover table-bordered table-sm">
+                                                <thead class="thead-light">
+                                                <tr>
+                                                    <th scope="col">Date</th>
+                                                    <th scope="col">Time</th>
+                                                    <th scope="col">Player</th>
+                                                    <th scope="col">Media</th>
+                                                    <th scope="col">Type</th>
+                                                    <th scope="col">Conta</th>
+                                                </tr>
+                                                </thead>
+                                                {% for record_of_day in records_by_day %}
+                                                <tbody>
+                                                <tr>
+                                                    <td>{{ record_of_day.date|date:"d-m-Y" }}</td>
+                                                    <td>{{ record_of_day.time|time:"h:i:s a" }}</td>
+                                                    <td>{{ record_of_day.player_id|player_full_name:conta }}</td>
+                                                    <td>{{ record_of_day.media_id|media_full_name:conta }}</td>
+                                                    <td>{{ record_of_day.media_type }}</td>
+                                                    <td>{{ record_of_day.nickname }}</td>
+                                                </tr>
+                                                </tbody>
+                                                {% endfor %} <!-- endfor record_of_day -->
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                                {% endfor %} <!-- endfor records_by_day -->
+                                {% else %}
+                                <div class="text-center">
+                                    <p class="mt-5 mb-0 lead">Não há playlogs.</p>
+                                    <a href="{% url 'manager:solicitar_relatorio' %}"><p class="mb-5 lead h6"><small>Solicitar Relatório</small></p></a>
+                                </div>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- [ Main Content ] end -->
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock content %}
+
+<!-- Specific Page JS goes HERE  -->
+{% block javascripts %}{% endblock javascripts %}
