@@ -1,2 +1,2 @@
-release: python manage.py migrate manager 0001
+release: python manage.py migrate --noinput
 web: gunicorn fouruc.wsgi --log-file -
