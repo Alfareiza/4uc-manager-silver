@@ -186,13 +186,14 @@ def solicitar_relatorio(request):
             if params['webhook'].startswith('http://127.0.0.1'):
                 messages.error(request, 'Não é possível solicitar o relatório com o ambiente local configurado')
                 return HttpResponseRedirect(reverse('manager:solicitar_relatorio'))
-            elif (resp_post := account.post_report(params)) != 200:
-                resp = json.loads(resp_post.text)
-                messages.error(request, resp['details']['report'][0])
-                return HttpResponseRedirect(reverse('manager:solicitar_relatorio'))
-            else:
-                messages.success(request, f"Relatório solicitado com sucesso. <a href={conta.get_absolute_url()}/#playlogs>Ver Playlogs</a>")
-                return HttpResponseRedirect(reverse('manager:solicitar_relatorio'))
+            elif (resp_post := account.post_report(params)):
+                    if resp_post.status_code != 200:
+                        resp = json.loads(resp_post.text)
+                        messages.error(request, resp['details']['report'][0])
+                        return HttpResponseRedirect(reverse('manager:solicitar_relatorio'))
+                    else:
+                        messages.success(request, f"Relatório solicitado com sucesso. <a href={conta.get_absolute_url()}#playlogs>Ver Playlogs</a>")
+                        return HttpResponseRedirect(reverse('manager:solicitar_relatorio'))
         else:
             ctx = {'contas': Account.objects.all(), 'form': form}
             return render(request, 'manager/solicitar_relatorio.html', ctx, status=400)
