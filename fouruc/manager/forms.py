@@ -67,7 +67,9 @@ class RelatorioForm(forms.Form):
     """
    Este formulário vai tratar a solicitação de relatórios.
    """
-    contas = Account.objects.all()
-    conta = forms.ChoiceField(choices=list(map(lambda x: (x.slug, x.name), contas)), initial=[("default", "Selecione a Conta")])
-    startdate = forms.DateField()
-    enddate = forms.DateField()
+    try:
+        contas = Account.objects.all()
+        conta = forms.ChoiceField(choices=list(map(lambda x: (x.slug, x.name), contas)), initial=[("default", "Selecione a Conta")])
+    except:
+        startdate = forms.DateField()
+        enddate = forms.DateField()
